@@ -1,0 +1,14 @@
+<html>
+    <head>
+        <h1>Getting to know you!</h1>
+    </head>
+    <body>
+        <form>
+            <h2>2: Potential Subjects For Majors</h2>
+            {% for subject in subjects %}
+            {{subject}}: <input type="checkbox" name="{{subject}}">
+            {% endfor %}
+            <input type="submit" value="Submit">
+        </form>   
+    </body>
+</html>

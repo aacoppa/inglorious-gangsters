@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <h1>Getting to know you!</h1>
+    </head>
+    <body>
+        <form>
+            <h2>3: Location</h2>
+            {% for place in locations %}
+            {{place}}: <input type="checkbox" name="{{place}}">
+            {% endfor %}
+            OR
+
+            <input type="submit" value="Submit">
+
+        </form>   
+    </body>
+</html>
