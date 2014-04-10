@@ -7,6 +7,22 @@ app=Flask(__name__)
 def index():
     return render_template("index.html")
 
+@app.route("/login", method = ['POST', 'GET'])
+def login():
+    if request.method == "GET":
+        return render_template("login.html", error=session['login_error'])
+    session['login_error'] = ""
+    name = request.form['name']
+    password = request.form['pass']
+    
+    if db_valid_upass(name, password):
+        session['user'] = db_load_user(name)
+        return redirect(url_for("/"))
+    else:
+        session['login_error'] = "Invalid username and password combination"
+        return redirect(url_for("/login"))
+
+
 @app.route("/register", method = ['POST', 'GET'])
 def register():
     if request.method == "GET":
