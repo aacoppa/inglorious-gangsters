@@ -10,7 +10,7 @@ for x in range(24):
     ranking = soup.findAll("span", {"class":"rankscore cluetip cluetip-stylized"})
     for y in range(11):
         try:
-            #print ranking[y]
+            print ranking[y][30:]
             print name[y].string
         except:
             pass
