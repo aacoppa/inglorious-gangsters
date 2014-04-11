@@ -1,5 +1,6 @@
 from flask import request,Flask,render_template,url_for
 from Places import places
+import search
 
 app=Flask(__name__)
 
@@ -7,6 +8,9 @@ app=Flask(__name__)
 def index():
     return render_template("index.html")
 
+@app.route("/search", method = ['POST', 'GET'])
+def search():
+    targets = search.find_schools(session['user'])
 @app.route("/login", method = ['POST', 'GET'])
 def login():
     if request.method == "GET":
@@ -53,8 +57,18 @@ def rate_locations():
     #Read form data
     for place in places:
         if place in request.form:
-            session['user'].addLocation(place)
-    db_update_user(
+            session['user'].add_location(place)
+    #db_update_user(
+
+ 
+@app.route("/add_grades", method = ['POST', 'GET'])
+def add_grades():
+    if request.method == "GET":
+        return render_template("add_grades.html", subjects=subjects)
+    for subject in subjects:
+        session['user'].add_grade(subject, request.form['subject'])
+    #db_update_user
+
 
 if __name__=="__main__":
     app.debug=True

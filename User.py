@@ -5,5 +5,7 @@ class User():
         self.locations = []
         self.grades = {}
         self.sats = {}
-    def addLocation(self, place):
+    def add_location(self, place):
         self.locations.append(place)
+    def add_grades():
+    
