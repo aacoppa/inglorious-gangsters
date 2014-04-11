@@ -25,3 +25,18 @@ def updateInfo(id, info):
 
 def updatePref(id, pref):
     db.user.update({'id':id}, {'info':info})
+
+def updateAddr(id,addr):
+    info = getInfo(id)
+    info['address'] = addr
+    updateInfo(id, info)
+
+def updateEmail(id, email):
+    info = getInfo(id)
+    info['email'] = email
+    updateInfo(id, info)
+
+def updatePhone(id, phone):
+    info = getInfo(id)
+    info['phone'] = phone
+    updateInfo(id, info)
