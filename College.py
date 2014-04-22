@@ -3,6 +3,7 @@ import math
 location_weight = 1.3
 sat_below_range_weight = 2
 sat_above_range_weight = 1.3
+sat_weight = 1.3
 gpa_below_weight = 2
 gpa_above_weight = 1.3
 rank_weight = .1
@@ -13,38 +14,36 @@ class College:
         self.location = location 
         self.rank = rank
         self.sats = sats
-    def get_comparison(self, user):
+    def get_difficulty_comparison(self, user):
         """
             returns value of comparison between user and school
         """
         compare_value = 0
         
-        if location in user.locations:
-            compare_value += location_weight
+        user_level = user.get_level()
+        college_level = self.get_difficulty()
         
-    def get_difficulty(self, user):
+        total_value = user_level + college_level
+        return total_value
+        
+    def get_difficulty(self):
         """
             returns the difficulty of getting into the school for for a user
         """
         difficulty = 0.0
-        for subject in user.sats:
-            difficulty += self.sat_range_conversion(user.sats[subject], subject)
-        #difficulty += gpa_conversion(User.gpa)
-        #difficulty += math.sqrt(1000 - self.rank) / 10 * rank_weight 
         difficulty -= (300 - self.rank) / 300.0
+        if not self.sats:
+            return difficulty
+        for subject in self.sats:
+            difficulty += self.sat_range_conversion(subject)
         return difficulty
-    def sat_range_conversion(self, value, subject):
+    def sat_range_conversion(self, subject):
         """
             Converts SAT score to weighted difficulty value
         """
         if not self.sats or not subject in self.sats:
-            return 0
-        if self.sats[subject].in_range(value):
-            return 0
-        elif self.sats[subject].below_range(value):
-            return -1 * sat_below_range_weight
-        else:
-            return 1 * sat_above_range_weight
+            return .5
+        return (self.sats[subject].bottom + self.sats[subject].top) / 1600 * sat_weight
     def print_college(self):
         if not self.sats:
             print "%s, no SAT data available" % (self.name)
@@ -676,7 +675,7 @@ def populate_database():
         user = User()
         user.name = "Aaron"
         user.sats = {"math" : 800, "reading" : 800}
-        print college.get_difficulty(user)
+        print college.get_difficulty()
 def levenshtein(s1, s2):
     if len(s1) < len(s2):
         return levenshtein(s2, s1)
@@ -696,4 +695,13 @@ def levenshtein(s1, s2):
         previous_row = current_row
  
     return previous_row[-1]
-populate_database()
+#populate_database()
+
+user = User()
+user.name = "Aaron"
+i = 400
+while i <= 800:
+    user.sats = {"math" : i, "reading" : i}
+    print "Math: %d Reading: %d Level: %f" % (user.sats['math'], user.sats['reading'],
+            user.get_level())
+    i += 10

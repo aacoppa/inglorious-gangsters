@@ -3,6 +3,10 @@ from Places import places
 import search
 
 app=Flask(__name__)
+uid = 0
+def get_next_uid():
+    uid += 1
+    return uid-1
 
 @app.route("/")
 def index():
