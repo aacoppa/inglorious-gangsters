@@ -1,38 +1,43 @@
+from User import User
+import math
+location_weight = 1.3
+sat_below_range_weight = 2
+sat_above_range_weight = 1.3
+gpa_below_weight = 2
+gpa_above_weight = 1.3
+rank_weight = .1
 class College:
-    location_weight = 1.3
-    sat_below_range_weight = 2
-    sat_above_range_weight = 1.3
-    gpa_below_weight = 2
-    gpa_above_weight = 1.3
-    rank_weight = .1
+    
     def __init__(self, name, location, rank, sats):
         self.name = name
         self.location = location 
         self.rank = rank
         self.sats = sats
-    def get_comparison(User):
+    def get_comparison(self, user):
         """
-            Returns value of comparison between User and School
+            returns value of comparison between user and school
         """
         compare_value = 0
         
-        if location in User.locations:
+        if location in user.locations:
             compare_value += location_weight
         
-    def get_difficulty(User):
+    def get_difficulty(self, user):
         """
-            Returns the difficulty of getting into the school for for a User
+            returns the difficulty of getting into the school for for a user
         """
-        difficulty = 0
-        for subject in User.sats:
-            difficulty += sat_range_conversion(User.sats[subject], subject)
+        difficulty = 0.0
+        for subject in user.sats:
+            difficulty += self.sat_range_conversion(user.sats[subject], subject)
         #difficulty += gpa_conversion(User.gpa)
-        difficulty += sqrt(1000 - self.rank) / 10 * rank_weight 
-    def sat_range_conversion(value, subject):
+        #difficulty += math.sqrt(1000 - self.rank) / 10 * rank_weight 
+        difficulty -= (300 - self.rank) / 300.0
+        return difficulty
+    def sat_range_conversion(self, value, subject):
         """
             Converts SAT score to weighted difficulty value
         """
-        if not subject in self.sats:
+        if not self.sats or not subject in self.sats:
             return 0
         if self.sats[subject].in_range(value):
             return 0
@@ -654,6 +659,8 @@ def populate_database():
         n+=5
                 
     for i in range(0, len(colleges)):
+        if False: #db_college_exists(name):
+            continue
         name = colleges[i]
         sats = {}
         matched = False
@@ -666,6 +673,10 @@ def populate_database():
             sats = None
         college = College(name, "", i, sats)
         college.print_college()
+        user = User()
+        user.name = "Aaron"
+        user.sats = {"math" : 800, "reading" : 800}
+        print college.get_difficulty(user)
 def levenshtein(s1, s2):
     if len(s1) < len(s2):
         return levenshtein(s2, s1)

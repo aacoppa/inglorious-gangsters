@@ -2,16 +2,16 @@ class Range():
     def __init__(self, bottom, top):
         self.bottom = bottom
         self.top = top
-    def in_range(n):
+    def in_range(self, n):
         """
             Checks if a value is in a range
         """
-        return n >= bottom and n <= top
-    def below_range(n):
+        return n >= self.bottom and n < self.top
+    def below_range(self, n):
         """
             Checks if a value is below a range
         """
-        return n < bottom
+        return n < self.bottom
 
 safety = Range(0, 10)
 target = Range(10, 20)
