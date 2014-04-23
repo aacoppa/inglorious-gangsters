@@ -722,6 +722,12 @@ def get_sizes():
 
 
 def populate_database():
+    """
+        Returns a list of College objects to be stored in the database
+        Then they can be reconstructed by called
+        colleges = db_load_colleges()
+    """
+    database_schools = []
     n = 0
     cols = []
     cols_with_size = get_sizes()
@@ -753,12 +759,14 @@ def populate_database():
                 self.address = c[3]
                 break
         college = College(name, "", i, sats, size, tuition, address)
+        database_schools.append(college)
         college.print_college()
         user = User()
         user.name = "Aaron"
         user.sats = {"math" : 800, "reading" : 800}
         print college.find_location()
         #print college.get_difficulty()
+    return database_schools
 def levenshtein(s1, s2):
     if len(s1) < len(s2):
         return levenshtein(s2, s1)
