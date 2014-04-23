@@ -1,5 +1,8 @@
 from User import User
+from bs4 import BeautifulSoup
+import urllib2
 import math
+
 location_weight = 1.3
 sat_below_range_weight = 2
 sat_above_range_weight = 1.3
@@ -9,23 +12,31 @@ gpa_above_weight = 1.3
 rank_weight = .1
 class College:
     
-    def __init__(self, name, location, rank, sats):
+    def __init__(self, name, location, rank, sats, size, tuition, address):
         self.name = name
         self.location = location 
         self.rank = rank
         self.sats = sats
-    def get_difficulty_comparison(self, user):
+        self.tuition = tuition
+        self.size = size
+        self.address = address
+    def get_difficulty_comparison(self, user_level):
         """
             returns value of comparison between user and school
         """
         compare_value = 0
         
-        user_level = user.get_level()
         college_level = self.get_difficulty()
         
         total_value = user_level + college_level
         return total_value
         
+    def find_location(self):
+        key = "AIzaSyAKd5dbb90Go0U3YNo4veBil91D0u2DBio"
+        url = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input={0}&sensor=false&key={1}".format(self.name.replace(" ", "&"), key)
+        result = urllib2.urlopen(url).read()
+        print result
+        exit()
     def get_difficulty(self):
         """
             returns the difficulty of getting into the school for for a user
@@ -649,9 +660,71 @@ class C:
     def printC(self):
         print "{0} Math {1}-{2} Reading {3}-{4}".format(self.name, self.math_range.bottom,
               self.math_range.top, self.read_range.bottom, self.read_range.top)
+
+def get_sizes():
+    colleges = []
+    url = "http://collegestats.org/colleges/all/largest/%d/"
+    page = 1
+    colls = []
+    while page < 3:
+        url = "http://collegestats.org/colleges/all/largest/%d/" % (page)
+        request = urllib2.urlopen(url)
+        soup = BeautifulSoup(request.read())
+        div = soup.find(id="content")
+        names = []
+        sizes = []
+        tuitions = []
+        addresses = []
+        num = 0
+        tuition_num = 0
+        address_num = 0
+        for td in div.find_all('td'):
+            try:
+                if td['class'][0] == "state":
+                    if address_num < 3:
+                        address_num += 1
+                        continue
+                    address = "adr213, zip0143"
+                    for meta in td.find_all('meta'):
+                        if meta['itemprop'] == "streetAddress":
+                            address = address.replace("adr213", meta['content'])
+                        if meta['itemprop'] == "postalCode":
+                            address = address.replace("zip0143", meta['content'])
+                    addresses.append(address)
+                if td['class'][0] == "name":
+                    if num < 3:
+                        num += 1
+                        continue
+                    name = td.a.string.strip()
+                    names.append(name)
+                if td['class'][0] == "students":
+                    size = int(td.string.replace(",",""))
+                    sizes.append(size)
+                if td['class'][0] == "tuition":
+                    if tuition_num < 3:
+                        tuition_num += 1
+                        continue
+                    if "N/A" in td.string:
+                        tuition = 0
+                    else:
+                        tuition = int(td.string.replace(",","").replace("$",""))
+                    tuitions.append(tuition)
+            except:
+                continue
+        #l = [ (x, y, z) for x in names for y in sizes for z in tuitions ]
+        l = zip(names, sizes, tuitions, addresses)
+        page += 1
+        colls.append(l)
+    colls = [item for sublist in colls for item in sublist]
+    return colls
+
+
+
+
 def populate_database():
     n = 0
     cols = []
+    cols_with_size = get_sizes()
     while n < len(colleges_with_sat):
         c = C(colleges_with_sat[n], colleges_with_sat[n+1], colleges_with_sat[n+2], colleges_with_sat[n+3], colleges_with_sat[n+4])
         cols.append(c)
@@ -662,6 +735,9 @@ def populate_database():
             continue
         name = colleges[i]
         sats = {}
+        size = 0
+        tuition = 0
+        address = ""
         matched = False
         for c in cols:
             if levenshtein(c.name, name) < 4:
@@ -670,12 +746,19 @@ def populate_database():
                 sats['reading'] = c.read_range
         if not matched:
             sats = None
-        college = College(name, "", i, sats)
+        for c in cols_with_size:
+            if levenshtein(c[0], name) < 4:
+                self.size = c[1]
+                self.tuition = c[2]
+                self.address = c[3]
+                break
+        college = College(name, "", i, sats, size, tuition, address)
         college.print_college()
         user = User()
         user.name = "Aaron"
         user.sats = {"math" : 800, "reading" : 800}
-        print college.get_difficulty()
+        print college.find_location()
+        #print college.get_difficulty()
 def levenshtein(s1, s2):
     if len(s1) < len(s2):
         return levenshtein(s2, s1)
@@ -695,13 +778,14 @@ def levenshtein(s1, s2):
         previous_row = current_row
  
     return previous_row[-1]
+print get_sizes()
 #populate_database()
-
-user = User()
-user.name = "Aaron"
-i = 400
-while i <= 800:
-    user.sats = {"math" : i, "reading" : i}
-    print "Math: %d Reading: %d Level: %f" % (user.sats['math'], user.sats['reading'],
-            user.get_level())
-    i += 10
+#
+#user = User()
+#user.name = "Aaron"
+#i = 400
+#while i <= 800:
+#    user.sats = {"math" : i, "reading" : i}
+#    print "Math: %d Reading: %d Level: %f" % (user.sats['math'], user.sats['reading'],
+#            user.get_level())
+#    i += 10
