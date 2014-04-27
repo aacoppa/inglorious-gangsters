@@ -17,6 +17,10 @@ def find_schools(user, colleges):
             reachs.append(school)
         elif value < target_level:
             safetys.append(school)
+    ret['safetys'] = safetys
+    ret['targets'] = targets
+    ret['reachs'] = reachs
+    return ret
 
 
 

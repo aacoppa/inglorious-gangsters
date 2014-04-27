@@ -14,7 +14,11 @@ def index():
 
 @app.route("/search", method = ['POST', 'GET'])
 def search():
-    targets = search.find_schools(session['user'])
+    schools = search.find_schools(session['user'])
+    return render_template("results.html", safetys=schools['safetys'],
+                           targets=schools['targets'], reachs=schools['reachs'])
+
+
 @app.route("/login", method = ['POST', 'GET'])
 def login():
     if request.method == "GET":
@@ -56,13 +60,16 @@ def register():
     
 @app.route("/rate_locations", method = ['POST', 'GET'])
 def rate_locations():
+    from locations import areas, states, 
     if request.method == "GET":
-        return render_template("get_location.html")
+        return render_template("get_location.html", Areas=Areas, states=states.keys())
     #Read form data
-    for place in places:
-        if place in request.form:
-            session['user'].add_location(place)
-    #db_update_user(
+    for data in request.form:
+        if data in states:
+            session['user'].add_state(data)
+        else:
+            session['user'].add_location(data)
+
 
  
 @app.route("/add_grades", method = ['POST', 'GET'])

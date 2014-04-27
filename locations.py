@@ -77,11 +77,6 @@ states = {
 "Wisconsin" : "WI",
 "Wyoming" : "WY",
 }
-locations = [
-"North_east",
-"West",
-"South"
-]
 
 West = [
 "MT",
