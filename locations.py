@@ -1,5 +1,8 @@
 import urllib2
 def get_state(zipcode):
+    print zipcode
+    if zipcode == 0:
+        return "NA"
     url = "http://www.411.com/search/ReverseZip?wp_raz=%d" % (zipcode)
     hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -17,8 +20,8 @@ def get_state(zipcode):
         if "dfpSetTargetingParams['fst'] =" in line:
             return line[len(line)-4:len(line)-2]
 
-for i in range(0, 10):
-    print get_state(i * 10000 + 0011)
+#for i in range(0, 10):
+#    print get_state(i * 10000 + 0011)
     
 
     
@@ -31,8 +34,8 @@ states = {
 "Colorado" : "CO",
 "Connecticut" : "CT",
 "Delaware" : "DE",
-Florida F"L
-Georgia" : "GA",
+"Florida" : "FL",
+"Georgia" : "GA",
 "Hawaii" : "HI",
 "Idaho" : "ID",
 "Illinois" : "IL",
@@ -51,29 +54,29 @@ Georgia" : "GA",
 "Montana" : "MT",
 "Nebraska" : "NE",
 "Nevada" : "NV",
-"New" : "Hampshire   NH",
-"New" : "Jersey      NJ",
-"New" : "Mexico      NM",
-"New" : "York        NY",
-"North" : "Carolina  NC",
-"North" : "Dakota    ND",
+"New Hampshire"   : "NH",
+"New Jersey"      : "NJ",
+"New Mexico"      : "NM",
+"New York"        : "NY",
+"North Carolina"  : "NC",
+"North Dakota"    : "ND",
 "Ohio" : "OH",
 "Oklahoma" : "OK",
 "Oregon" : "OR",
 "Pennsylvania" : "PA",
-"Rhode" : "Island    RI",
-"South" : "Carolina  SC",
-"South" : "Dakota    SD",
+"Rhode Island" :    "RI",
+"South Carolina" :  "SC",
+"South Dakota" :    "SD",
 "Tennessee" : "TN",
 "Texas" : "TX",
 "Utah" : "UT",
 "Vermont" : "VT",
 "Virginia" : "VA",
 "Washington" : "WA",
-"West" : "Virginia   WV",
+"West Virginia"   : "WV",
 "Wisconsin" : "WI",
 "Wyoming" : "WY",
-]
+}
 locations = [
 "North_east",
 "East",
