@@ -681,6 +681,7 @@ def get_sizes():
         for td in div.find_all('td'):
             try:
                 if td['class'][0] == "state":
+                    print td.string
                     if address_num < 3:
                         address_num += 1
                         continue
