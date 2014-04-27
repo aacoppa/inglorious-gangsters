@@ -30,7 +30,24 @@ class College:
         
         total_value = user_level + college_level
         return total_value
-        
+    def get_compatability(self, User):
+        """
+            Find out how much this college is applicable to the user
+        """
+        compatabilty = 0
+        for state in User.states:
+            if self.state == state:
+                compatabilty += .5
+        #Location check; ie Northeast or south
+        for location in User.locations:
+            if self.state in Area[location]:
+                compatabilty += .3
+        for temp in User.temperatures.keys():
+            if self.temperature - 10 < temp and
+               self.temperature + 10 > temp:
+                   compatabilty += User.temperatures[temp]
+                   break
+        return compatabilty
     def find_location(self):
         key = "AIzaSyAKd5dbb90Go0U3YNo4veBil91D0u2DBio"
         url = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input={0}&sensor=false&key={1}".format(self.name.replace(" ", "&"), key)

@@ -79,7 +79,6 @@ states = {
 }
 locations = [
 "North_east",
-"East",
 "West",
 "South"
 ]
@@ -122,3 +121,8 @@ South = [
 "AR",
 "LA",
 ]
+
+Areas = {}
+Areas['West'] = West
+Areas['South'] = South 
+Areas['North_east'] = North_east

@@ -3,6 +3,9 @@ class User():
     def __init__(self):
         self.uid = 0
         self.locations = []
+        self.states = []
+        self.temperatures = {}
+        #Degree : User rating
         self.grades = {}
         self.sats = {}
         self.schools = []
