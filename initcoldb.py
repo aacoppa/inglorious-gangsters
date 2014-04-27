@@ -9,7 +9,14 @@ def checkDB():
     else:
         return True
 
-def initDB():
-    """
-    init db from various sources
-    """
+def db_store_college(College):
+    db.colleges.insert({'name':College.name, 'location':College.location,
+                        'rank':College.rank, 'sats':College.sats,
+                        'size':College.size, 'tuition':College.tuition,
+                        'address':College.address})
+
+def db_college_exits(College_name):
+    College = db.colleges.find({'name':College_name})
+    if len(College) == 0:
+        return False
+    return True
