@@ -1,16 +1,10 @@
-from flask import request,Flask,render_template,url_for
-from Places import places
-import search
+#start building up structure for the web page
+from flask import Flask
+from flask import session,request,render_template, url_for, redirect
 
-app=Flask(__name__)
-uid = 0
-def get_next_uid():
-    uid += 1
-    return uid-1
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+app = Flask(__name__)
+app.secret_key="kq345bz2"
 
 @app.route("/search", method = ['POST', 'GET'])
 def search():
@@ -73,8 +67,13 @@ def rate_locations():
     for data in request.form:
         if data in states:
             session['user'].add_state(data)
+def auth(func):
+    def wrapper():
+        if 'username' not in session:
+            return redirect(url_for("login"))
         else:
-            session['user'].add_location(data)
+            return func()
+    return wrapper
 
 
  
@@ -91,7 +90,17 @@ def add_grades():
     for 
     #db_update_user
 
+@app.route("/",methods=['GET','POST'])
+def home():
+    if request.method == "GET":
+        return render_template("home.html")
+    else:
+        return redirect(url_for("login.html"))
 
-if __name__=="__main__":
+@app.route("/sample",methods=['GET','POST'])
+def samplePage():
+    return render_template("harvard.html")
+
+if __name__ == "__main__":
     app.debug=True
-    app.run(host='0.0.0.0',port=5000)
+    app.run(host="0.0.0.0",port=1337)
