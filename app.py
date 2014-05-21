@@ -14,6 +14,9 @@ def index():
 
 @app.route("/search", method = ['POST', 'GET'])
 def search():
+    """
+        Users find the schools that fit their interests
+    """
     schools = search.find_schools(session['user'])
     return render_template("results.html", safetys=schools['safetys'],
                            targets=schools['targets'], reachs=schools['reachs'])
@@ -60,6 +63,9 @@ def register():
     
 @app.route("/rate_locations", method = ['POST', 'GET'])
 def rate_locations():
+    """
+        Users select locations they would be interested in studying
+    """
     from locations import areas, states, 
     if request.method == "GET":
         return render_template("get_location.html", Areas=Areas, states=states.keys())
@@ -74,10 +80,15 @@ def rate_locations():
  
 @app.route("/add_grades", method = ['POST', 'GET'])
 def add_grades():
+    """
+        Users added grades and sats
+    """
     if request.method == "GET":
         return render_template("add_grades.html", subjects=subjects)
+
     for subject in subjects:
         session['user'].add_grade(subject, request.form['subject'])
+    for 
     #db_update_user
 
 

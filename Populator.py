@@ -688,7 +688,7 @@ def populate_database():
         zipcode = 0
         matched = False
         for c in cols:
-            if levenshtein(c.name, name) < 4:
+            if levenshtein(c.name, name) < 3:
                 matched = True
                 sats['math'] = c.math_range
                 sats['reading'] = c.read_range
