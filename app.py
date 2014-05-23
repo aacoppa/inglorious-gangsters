@@ -1,12 +1,12 @@
 #start building up structure for the web page
 from flask import Flask
 from flask import session,request,render_template, url_for, redirect
-
+from Populator import populate_database
 
 app = Flask(__name__)
 app.secret_key="kq345bz2"
 
-@app.route("/search", method = ['POST', 'GET'])
+@app.route("/search", methods = ['POST', 'GET'])
 def search():
     """
         Users find the schools that fit their interests
@@ -16,7 +16,7 @@ def search():
                            targets=schools['targets'], reachs=schools['reachs'])
 
 
-@app.route("/login", method = ['POST', 'GET'])
+@app.route("/login", methods = ['POST', 'GET'])
 def login():
     if request.method == "GET":
         return render_template("login.html", error=session['login_error'])
@@ -32,7 +32,7 @@ def login():
         return redirect(url_for("/login"))
 
 
-@app.route("/register", method = ['POST', 'GET'])
+@app.route("/register", methods = ['POST', 'GET'])
 def register():
     if request.method == "GET":
         return render_template("register.html", error=session['register_error'])
@@ -55,12 +55,12 @@ def register():
     session['user'] = db_load_user(name)
     return redirect(url_for("/"))
     
-@app.route("/rate_locations", method = ['POST', 'GET'])
+@app.route("/rate_locations", methods = ['POST', 'GET'])
 def rate_locations():
     """
         Users select locations they would be interested in studying
     """
-    from locations import areas, states, 
+    from locations import areas, states
     if request.method == "GET":
         return render_template("get_location.html", Areas=Areas, states=states.keys())
     #Read form data
@@ -77,7 +77,7 @@ def auth(func):
 
 
  
-@app.route("/add_grades", method = ['POST', 'GET'])
+@app.route("/add_grades", methods = ['POST', 'GET'])
 def add_grades():
     """
         Users added grades and sats
@@ -87,8 +87,14 @@ def add_grades():
 
     for subject in subjects:
         session['user'].add_grade(subject, request.form['subject'])
-    for 
+#    for 
     #db_update_user
+
+
+@app.route("/colleges")
+def show_colleges():
+    return render_template("colleges.html", collegeList=populate_database())
+
 
 @app.route("/",methods=['GET','POST'])
 def home():

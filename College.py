@@ -43,8 +43,7 @@ class College:
             if self.state in Area[location]:
                 compatabilty += .3
         for temp in User.temperatures.keys():
-            if self.temperature - 10 < temp and
-               self.temperature + 10 > temp:
+            if self.temperature - 10 < temp and self.temperature + 10 > temp:
                    compatabilty += User.temperatures[temp]
                    break
         return compatabilty
