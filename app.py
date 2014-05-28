@@ -2,6 +2,7 @@
 from flask import Flask
 from flask import session,request,render_template, url_for, redirect
 from Populator import populate_database
+import search
 
 app = Flask(__name__)
 app.secret_key="kq345bz2"
@@ -19,7 +20,10 @@ def search():
 @app.route("/login", methods = ['POST', 'GET'])
 def login():
     if request.method == "GET":
-        return render_template("login.html", error=session['login_error'])
+        if 'login_error' in session:
+            return render_template("login.html", error=session['login_error'])
+        else:
+            return render_template("login.html", error="")
     session['login_error'] = ""
     name = request.form['name']
     password = request.form['pass']
