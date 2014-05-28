@@ -16,7 +16,7 @@ def db_store_college(College):
                         'address':College.address, 'state':College.state})
 
 def db_college_exits(College_name):
-    College = db.colleges.find({'name':College_name})
+    College = db.colleges.find_one({'name':College_name})
     if len(College) == 0:
         return False
-    return True
+    return College
