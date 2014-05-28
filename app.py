@@ -2,7 +2,6 @@
 from flask import Flask
 from flask import session,request,render_template, url_for, redirect
 from Populator import populate_database
-import search
 
 app = Flask(__name__)
 app.secret_key="kq345bz2"
