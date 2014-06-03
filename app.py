@@ -3,7 +3,7 @@ from flask import Flask
 from flask import session,request,render_template, url_for, redirect
 #from Populator import populate_database
 #import search
-from Populator import populate_database
+#from Populator import populate_database
 
 app = Flask(__name__)
 app.secret_key="kq345bz2"
@@ -15,7 +15,7 @@ def search():
     """
     schools = search.find_schools(session['user'])
     return render_template("results.html", safetys=schools['safetys'],
-                           targets=schools['targets'], reachs=schools['reachs']v)
+                           targets=schools['targets'], reachs=schools['reachs'])
 
 
 @app.route("/login", methods = ['POST', 'GET'])
