@@ -15,7 +15,7 @@ def search():
     """
     schools = search.find_schools(session['user'])
     return render_template("results.html", safetys=schools['safetys'],
-                           targets=schools['targets'], reachs=schools['reachs']v)
+                           targets=schools['targets'], reachs=schools['reachs'])
 
 
 @app.route("/login", methods = ['POST', 'GET'])

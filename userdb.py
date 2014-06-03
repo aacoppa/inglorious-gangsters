@@ -7,6 +7,9 @@ def addUser(list):
     db.user.insert({'id':list['id'], 'pw':list['pw'], 
                     'info':('name':list['name'], 'address':list['address'], 'email':list['email'], 'phone':list['phone']),
                     'scores':[list['sat1'], list['sat2']), 'preferences':list['preferences']})
+
+def db_valid_youpass(user,password):
+    
     
 def getPrefs(id):
     return db.user.find_one({'id':id}, fields={'preferences':True, '_id':False})    

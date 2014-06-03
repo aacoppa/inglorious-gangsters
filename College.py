@@ -20,6 +20,7 @@ class College:
         self.size = size
         self.address = address
         self.state = get_state(zipcode)
+	self.zipcolde = zipcode
     def get_difficulty_comparison(self, user_level):
         """
             returns value of comparison between user and school
