@@ -1,0 +1,8 @@
+<html>
+<head>
+<h1>Register here.</h1>
+<form method="POST">
+Full Name: <input type="text" name="name"><br>
+E-mail: <input type="text" name="email"><br>
+Password: <input type="password" name="pass1"><br>
+Confirm Password: <input type="password" name="pass1"><br>

@@ -1,8 +1,8 @@
 #start building up structure for the web page
 from flask import Flask
 from flask import session,request,render_template, url_for, redirect
-from Populator import populate_database
-import search
+#from Populator import populate_database
+#import search
 
 app = Flask(__name__)
 app.secret_key="kq345bz2"
@@ -24,6 +24,8 @@ def login():
             return render_template("login.html", error=session['login_error'])
         else:
             return render_template("login.html", error="")
+    if request.form["button"] == "Register":
+        return redirect(url_for("register"))
     session['login_error'] = ""
     name = request.form['name']
     password = request.form['pass']
@@ -39,7 +41,10 @@ def login():
 @app.route("/register", methods = ['POST', 'GET'])
 def register():
     if request.method == "GET":
-        return render_template("register.html", error=session['register_error'])
+        if 'register_error' in session:
+            return render_template("register.html", error=session['register_error'])
+        else:
+            return render_template("register.html",error="")
     session['register_error'] = ""
     name = request.form['name']
     email = request.form['email']
@@ -105,7 +110,7 @@ def home():
     if request.method == "GET":
         return render_template("home.html")
     else:
-        return redirect(url_for("login.html"))
+        return redirect(url_for("login"))
 
 @app.route("/sample",methods=['GET','POST'])
 def samplePage():
