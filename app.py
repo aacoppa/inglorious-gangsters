@@ -28,11 +28,11 @@ def login():
     if request.form["button"] == "Register":
         return redirect(url_for("register"))
     session['login_error'] = ""
-    name = request.form['name']
+    email = request.form['email']
     password = request.form['pass']
     
-    if db_valid_upass(name, password):
-        session['user'] = db_load_user(name)
+    if db_valid_upass(email, password):
+        session['user'] = db_load_user(email)
         return redirect(url_for("/"))
     else:
         session['login_error'] = "Invalid username and password combination"
@@ -51,9 +51,10 @@ def register():
     email = request.form['email']
     pass1 = request.form['pass1']
     pass2 = request.form['pass2']
-    if db_name_taken(name):
-        session['register_error'] = "Username is already taken"
-        return redirect(url_for("/register"))
+    ''' log in with email not username '''
+    #if db_name_taken(name):
+    #    session['register_error'] = "Username is already taken"
+    #    return redirect(url_for("/register"))
     if not pass1 == pass2:
         session['register_error'] = "Passwords don't match"
         return redirect(url_for("/register"))

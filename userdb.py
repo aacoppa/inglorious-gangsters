@@ -10,14 +10,14 @@ def db_add_user(uid, name, email, pw):
 def get_next_uid():
     return len(db.user.find()) + 1
 
-def db_valid_upass(id,pw):
-    user = db.user.find_one({'id':id}, fields{'preferences':True, '_id':False})
+def db_valid_upass(email,pw):
+    user = db.user.find_one({'email',email}, fields{'preferences':True, '_id':False})
     if users['pw'] == pw:
         return True
     return False
 
-def db_name_taken(id):
-    user = db.user.find({'id':id})
+def db_name_taken(uid):
+    user = db.user.find({'uid':uid})
     return len(user) == 1
 
 def db_email_taken(email):
