@@ -3,18 +3,31 @@ from pymongo import MongoClient
 client = MongoClient()
 db = client.college
 
-def addUser(list):
-    db.user.insert({'id':list['id'], 'pw':list['pw'], 
-                    'info':('name':list['name'], 'address':list['address'], 'email':list['email'], 'phone':list['phone']),
-                    'scores':[list['sat1'], list['sat2']), 'preferences':list['preferences']})
+def db_add_user(uid, name, email, pw):
+    db.user.insert({'uid':uid, 'pw':pw, 
+                    'name':name, 'email':email})
 
-def db_valid_youpass(user,password):
+def get_next_uid():
+    return len(db.user.find()) + 1
+
+def db_valid_upass(email,pw):
+    user = db.user.find_one({'email',email}, fields={'preferences':True, '_id':False})
+    if users['pw'] == pw:
+        return True
+    return False
+
+def db_name_taken(uid):
+    user = db.user.find({'uid':uid})
+    return len(user) == 1
+
+def db_email_taken(email):
+    return len(db.user.find({'email':email})) == 1
     
-    
+
 def getPrefs(id):
     return db.user.find_one({'id':id}, fields={'preferences':True, '_id':False})    
     
-def loadUser(id):
+def db_load_user(id):
     return db.user.find_one({'id':id})
 
 def getScores(id):

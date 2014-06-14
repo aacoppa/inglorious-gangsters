@@ -4,6 +4,7 @@ from flask import session,request,render_template, url_for, redirect
 #from Populator import populate_database
 #import search
 #from Populator import populate_database
+from userdb import *
 
 app = Flask(__name__)
 app.secret_key="kq345bz2"
@@ -28,11 +29,11 @@ def login():
     if request.form["button"] == "Register":
         return redirect(url_for("register"))
     session['login_error'] = ""
-    name = request.form['name']
+    email = request.form['email']
     password = request.form['pass']
     
-    if db_valid_upass(name, password):
-        session['user'] = db_load_user(name)
+    if db_valid_upass(email, password):
+        session['user'] = db_load_user(email)
         return redirect(url_for("/"))
     else:
         session['login_error'] = "Invalid username and password combination"
