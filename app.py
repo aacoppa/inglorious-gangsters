@@ -48,9 +48,13 @@ def register():
             return render_template("register.html",error="")
     session['register_error'] = ""
     name = request.form['name']
+    print name
     email = request.form['email']
+    print email
     pass1 = request.form['pass1']
+    print pass1
     pass2 = request.form['pass2']
+    print pass2
     if db_name_taken(name):
         session['register_error'] = "Username is already taken"
         return redirect(url_for("/register"))
