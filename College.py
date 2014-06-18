@@ -52,8 +52,8 @@ class College:
         key = "AIzaSyAKd5dbb90Go0U3YNo4veBil91D0u2DBio"
         url = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input={0}&sensor=false&key={1}".format(self.name.replace(" ", "&"), key)
         result = urllib2.urlopen(url).read()
-        print result
-        exit()
+        #print result
+        return result
     def get_difficulty(self):
         """
             returns the difficulty of getting into the school for for a user

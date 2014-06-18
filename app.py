@@ -5,6 +5,8 @@ from flask import session,request,render_template, url_for, redirect
 #import search
 #from Populator import populate_database
 from userdb import *
+from initcoldb import *
+from Populator import populate_database
 
 app = Flask(__name__)
 app.secret_key="kq345bz2"
@@ -123,5 +125,9 @@ def samplePage():
     return render_template("harvard.html")
 
 if __name__ == "__main__":
+    if not checkDB():
+        for college in populate_database():
+            if not db_college_exits(colllege.name):
+                db_store_college(college)
     app.debug=True
     app.run(host="0.0.0.0",port=1337)

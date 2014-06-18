@@ -1,6 +1,6 @@
 import urllib2
 def get_state(zipcode):
-    print zipcode
+    #print zipcode
     if zipcode == 0:
         return "NA"
     url = "http://www.411.com/search/ReverseZip?wp_raz=%d" % (zipcode)

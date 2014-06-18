@@ -11,7 +11,7 @@ def get_next_uid():
     return len(db.user.find()) + 1
 
 def db_valid_upass(email,pw):
-    user = db.user.find_one({'email',email}, fields={'preferences':True, '_id':False})
+    user = db.user.find_one({'email': email}, fields={'preferences':True, '_id':False})
     if users['pw'] == pw:
         return True
     return False

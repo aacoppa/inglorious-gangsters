@@ -1,3 +1,4 @@
+from User import *
 from College import College
 import urllib2
 from bs4 import BeautifulSoup
@@ -604,7 +605,7 @@ def get_sizes():
     url = "http://collegestats.org/colleges/all/largest/%d/"
     page = 1
     colls = []
-    while page < 6:
+    while page < 2:
         url = "http://collegestats.org/colleges/all/largest/%d/" % (page)
         request = urllib2.urlopen(url)
         soup = BeautifulSoup(request.read())
@@ -620,7 +621,6 @@ def get_sizes():
         for td in div.find_all('td'):
             try:
                 if td['class'][0] == "state":
-                    #print td.string
                     if address_num < 3:
                         address_num += 1
                         continue
@@ -695,18 +695,18 @@ def populate_database():
         if not matched:
             sats = None
         for c in cols_with_size:
-            print c[0]
+            #print c[0]
             if levenshtein(c[0], name) < 3:
                 size = c[1]
                 tuition = c[2]
                 address = c[3]
                 zipcode = c[4]
-                print c
+                #print c
                 break
-        exit()
         college = College(name, "", i, sats, size, tuition, address, zipcode)
+        #print college
         database_schools.append(college)
-        college.print_college()
+        #college.print_college()
         user = User()
         user.name = "Aaron"
         user.sats = {"math" : 800, "reading" : 800}
@@ -734,7 +734,8 @@ def levenshtein(s1, s2):
  
     return previous_row[-1]
 #print get_sizes()
-populate_database()
+print populate_database()
+print "Done!"
 #
 #user = User()
 #user.name = "Aaron"
