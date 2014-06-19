@@ -20,3 +20,6 @@ def db_college_exits(College_name):
     if len(College) == 0:
         return False
     return College
+
+def db_load_colleges():
+    return [col for col in db.colleges.find()]

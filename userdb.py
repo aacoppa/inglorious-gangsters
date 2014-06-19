@@ -1,5 +1,4 @@
 from pymongo import MongoClient
-
 client = MongoClient()
 db = client.college
 
@@ -8,20 +7,27 @@ def db_add_user(uid, name, email, pw):
                     'name':name, 'email':email})
 
 def get_next_uid():
-    return len(db.user.find()) + 1
+    try:
+        return max([user['uid'] for user in db.user.find()]) + 1
+    except ValueError:
+        return 1
 
 def db_valid_upass(email,pw):
-    user = db.user.find_one({'email': email}, fields={'preferences':True, '_id':False})
-    if users['pw'] == pw:
+    user = db.user.find_one({'email': email})
+    if not user:
+        return False
+    if user['pw'] == pw:
         return True
     return False
 
-def db_name_taken(uid):
-    user = db.user.find({'uid':uid})
-    return len(user) == 1
+def db_name_taken(name):
+    user = db.user.find_one({'name':name})
+    if not user:
+        return False
+    return True
 
 def db_email_taken(email):
-    return len(db.user.find({'email':email})) == 1
+    return not db.user.find_one({'email':email}) == None
     
 
 def getPrefs(id):

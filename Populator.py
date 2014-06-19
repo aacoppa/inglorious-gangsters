@@ -734,8 +734,8 @@ def levenshtein(s1, s2):
  
     return previous_row[-1]
 #print get_sizes()
-print populate_database()
-print "Done!"
+#print populate_database()
+#print "Done!"
 #
 #user = User()
 #user.name = "Aaron"
