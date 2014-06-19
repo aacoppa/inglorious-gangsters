@@ -31,6 +31,6 @@ def sort_results(results):
         for p in sorted(d.items(), key=itemgetter(1))
             
 
-from College import College
-C = College("Yale University", None, None, None)
-C.find_location()
+#from College import College
+#C = College("Yale University", None, None, None)
+#C.find_location()
