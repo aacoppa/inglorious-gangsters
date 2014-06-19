@@ -25,10 +25,10 @@ def find_schools(user, colleges):
     ret['reachs'] = reachs
     return ret
 
-def sort_results(results):
-    for d in results:
-        from operator import itemgetter
-        for p in sorted(d.items(), key=itemgetter(1))
+#def sort_results(results):
+#    for d in results:
+#        from operator import itemgetter
+#        for p in sorted(d.items(), key=itemgetter(1))
             
 
 #from College import College
